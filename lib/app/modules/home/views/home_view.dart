@@ -7,162 +7,125 @@ import 'package:myapp/app/modules/transaksi/views/transaksi_add_view.dart';
 import 'package:myapp/app/modules/transaksi/views/transaksi_view.dart';
 import '../controllers/home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  final cAuth = Get.find<AuthController>();
-  @override
-  Widget build(BuildContext context) {
-    return DashboardAdmin();
-  }
-}
-
-class DashboardAdmin extends StatefulWidget {
-  const DashboardAdmin({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<DashboardAdmin> createState() => _DashboardAdminState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _DashboardAdminState extends State<DashboardAdmin> {
-  final cAuth = Get.find<AuthController>();
-  int _index = 0;
-  List<Map> _fragment = [
-    {
-      'title': 'Dashboard',
-      'view': DashboardView(),
-      'icon': Icons.dashboard,
-    },
-    {
-      'title': 'Data Transaksi',
-      'view': TransaksiView(),
-      'icon': Icons.receipt,
-      'add': () => TransaksiAddView(),
-      'fullScreen': true, // New property to indicate full screen view
-    },
-    {
-     'title': 'Laporan',
-      'view': LaporanView(),
-      'icon': Icons.report,
-      'fullScreen': true,
-    },
+class _HomeViewState extends State<HomeView> {
+  final AuthController cAuth = Get.find<AuthController>();
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    DashboardView(),
+    TransaksiView(),
+    LaporanView(),
+  ];
+
+  final List<String> _titles = [
+    'Dashboard',
+    'Data Transaksi',
+    'Laporan',
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Check if current fragment is full screen
-    bool isFullScreen = _fragment[_index].containsKey('fullScreen') 
-        && _fragment[_index]['fullScreen'] == true;
-
     return Scaffold(
-      backgroundColor: Colors.white,
-      // Conditionally show AppBar
-      appBar: isFullScreen 
-        ? null 
-        : PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: AppBar(
-              elevation: 0,
-              backgroundColor: Color(0xFF005DAA), // BRI Blue
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20),
-                ),
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _fragment[_index]['title'],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                  Text(
-                    'Admin Panel',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-      drawer: isFullScreen ? null : _buildDrawer(), // Hide drawer in full screen
-      body: _fragment[_index]['view'],
-    );
-  }
-
-  // Rest of the code remains the same as in the original implementation
-  Widget _buildDrawer() {
-    return Drawer(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF005DAA), Color(0xFF00A3E1)],
+      backgroundColor: Colors.grey[100], // Warna background halus
+      appBar: AppBar(
+        title: Text(
+          _titles[_selectedIndex],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
           ),
         ),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 80,
-                      color: Color(0xFF005DAA),
-                    ),
-                  ),
-                  Text(
-                    'Admin',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ..._buildDrawerItems(),
-          ],
-        ),
+        backgroundColor: Color(0xFF005DAA), // Warna biru khas
+        elevation: 4,
+        shadowColor: Colors.grey.withOpacity(0.3),
       ),
+      body: _pages[_selectedIndex], // Konten berganti sesuai index
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Transaksi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report),
+            label: 'Laporan',
+          ),
+        ],
+        selectedItemColor: Color(0xFF005DAA),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+      ),
+      drawer: _buildCustomDrawer(),
     );
   }
 
-  List<Widget> _buildDrawerItems() {
-    return _fragment
-            .map((item) => _drawerItem(
-                  icon: item['icon'],
-                  title: item['title'],
-                  onTap: () {
-                    setState(() => _index = _fragment.indexOf(item));
-                    Get.back();
-                  },
-                ))
-            .toList() +
-        [
+  Widget _buildCustomDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: const Text(
+              "Admin",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            accountEmail: const Text("admin@example.com"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.account_circle,
+                color: Color(0xFF005DAA),
+                size: 60,
+              ),
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF005DAA), Color(0xFF00A3E1)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          _drawerItem(
+            icon: Icons.dashboard,
+            title: 'Dashboard',
+            onTap: () => _navigateTo(0),
+          ),
+          _drawerItem(
+            icon: Icons.receipt,
+            title: 'Data Transaksi',
+            onTap: () => _navigateTo(1),
+          ),
+          _drawerItem(
+            icon: Icons.report,
+            title: 'Laporan',
+            onTap: () => _navigateTo(2),
+          ),
+          const Divider(),
           _drawerItem(
             icon: Icons.logout,
             title: 'Logout',
-            onTap: () {
-              Get.back();
-              cAuth.logout();
-            },
+            onTap: () => cAuth.logout(),
           ),
-        ];
+        ],
+      ),
+    );
   }
 
   Widget _drawerItem({
@@ -171,23 +134,21 @@ class _DashboardAdminState extends State<DashboardAdmin> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      onTap: onTap,
-      leading: Icon(
-        icon,
-        color: Colors.white,
-        size: 25,
-      ),
+      leading: Icon(icon, color: Color(0xFF005DAA)),
       title: Text(
         title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
+        style: const TextStyle(fontSize: 16),
       ),
-      trailing: Icon(
-        Icons.navigate_next,
-        color: Colors.white,
-      ),
+      onTap: () {
+        onTap();
+        Navigator.pop(context);
+      },
     );
+  }
+
+  void _navigateTo(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
