@@ -16,12 +16,10 @@ class SignupView extends GetView<SignupController> {
             children: [
               // Header with Blue Background
               Container(
-                margin: EdgeInsets.only(top: 20), // Added top margin
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.04,
-                  horizontal: MediaQuery.of(context).size.width * 0.05,
-                ),
+                    vertical: MediaQuery.of(context).size.height * 0.04,
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF0D47A1), Color(0xFF1565C0)],
@@ -37,12 +35,13 @@ class SignupView extends GetView<SignupController> {
                   children: [
                     Image.asset(
                       'assets/images/bri.jpg',
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.height *
+                          0.30, // Increased from 0.04
+                      width: MediaQuery.of(context).size.width *
+                          0.6, // Increased from 0.05
                       fit: BoxFit.contain,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 10),
                     Text(
                       "Create Your Account",
                       style: TextStyle(
@@ -76,14 +75,13 @@ class SignupView extends GetView<SignupController> {
                     ),
                     SizedBox(height: 30),
 
-                    // Signup Button with Icon
-                    ElevatedButton.icon(
+                    // Signup Button
+                    ElevatedButton(
                       onPressed: () {
                         cAuth.signup(
                             controller.cEmail.text, controller.cPass.text);
                       },
-                      icon: Icon(Icons.check_circle, color: Colors.white),
-                      label: Text(
+                      child: Text(
                         "Sign Up",
                         style: TextStyle(
                           fontSize: 18,
@@ -97,15 +95,14 @@ class SignupView extends GetView<SignupController> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        shadowColor: Colors.black45,
-                        elevation: 5,
                       ),
                     ),
                     SizedBox(height: 20),
 
-                    // Login Navigation Button with Underline
-                    GestureDetector(
-                      onTap: () {
+                    // Login Navigation Button
+                    TextButton(
+                      onPressed: () {
+                        // Assuming you have a named route for login page
                         Get.toNamed('/login');
                       },
                       child: Text(
@@ -113,7 +110,6 @@ class SignupView extends GetView<SignupController> {
                         style: TextStyle(
                           color: Color(0xFF0D47A1),
                           fontSize: 16,
-                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ),
@@ -134,35 +130,23 @@ class SignupView extends GetView<SignupController> {
     required Color borderColor,
     bool obscureText = false,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: borderColor),
-          labelText: labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: borderColor, width: 2),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide:
-                BorderSide(color: borderColor.withOpacity(0.5), width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: borderColor, width: 2),
-          ),
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: borderColor),
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: borderColor, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: borderColor.withOpacity(0.5), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: borderColor, width: 2),
         ),
       ),
     );
