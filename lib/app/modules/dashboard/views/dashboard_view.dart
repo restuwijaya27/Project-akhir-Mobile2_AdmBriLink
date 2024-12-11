@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/dashboard_controller.dart';
-import 'package:myapp/app/modules/laporan/views/laporan_view.dart'; // Import halaman Mahasiswa
-import 'package:myapp/app/modules/transaksi/views/transaksi_view.dart'; // Import halaman Dosen
+import 'package:myapp/app/modules/laporan/views/laporan_view.dart';
+import 'package:myapp/app/modules/transaksi/views/transaksi_view.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
@@ -10,21 +10,44 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Dashboard',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Selamat datang dan informasi pengguna
+            // Header Selamat Datang
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.blue.shade100,
+                gradient: LinearGradient(
+                  colors: [Colors.blue.shade300, Colors.blue.shade100],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.shade200,
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.person, size: 50, color: Colors.blue),
+                  const CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person, size: 40, color: Colors.blue),
+                  ),
                   const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,14 +55,14 @@ class DashboardView extends GetView<DashboardController> {
                       Text(
                         'Selamat Datang, Mitra!',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.white,
                         ),
                       ),
                       Text(
                         'Kelola ATM Anda dengan mudah.',
-                        style: TextStyle(fontSize: 14, color: Colors.blueGrey),
+                        style: TextStyle(fontSize: 14, color: Colors.white70),
                       ),
                     ],
                   ),
@@ -58,7 +81,7 @@ class DashboardView extends GetView<DashboardController> {
               ),
             ),
             const SizedBox(height: 10),
-            GridView(
+            GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -66,20 +89,31 @@ class DashboardView extends GetView<DashboardController> {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
-              children: [
-                _buildMenuCard(
-                  'Riwayat Transaksi',
-                  Icons.history,
-                  Colors.blue,
-                  () => Get.to(() => TransaksiView()), // Navigasi ke MahasiswaView
-                ),
-                _buildMenuCard(
-                  'Laporan',
-                  Icons.bar_chart,
-                  Colors.orange,
-                  () => Get.to(() => LaporanView()), // Navigasi ke DosenView
-                ),
-              ],
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                final menuItems = [
+                  {
+                    'title': 'Riwayat Transaksi',
+                    'icon': Icons.history,
+                    'color': Colors.blue,
+                    'onTap': () => Get.to(() => TransaksiView()),
+                  },
+                  {
+                    'title': 'Laporan',
+                    'icon': Icons.bar_chart,
+                    'color': Colors.orange,
+                    'onTap': () => Get.to(() => LaporanView()),
+                  },
+                ];
+
+                final item = menuItems[index];
+                return _buildMenuCard(
+                  item['title'] as String,
+                  item['icon'] as IconData,
+                  item['color'] as Color,
+                  item['onTap'] as VoidCallback,
+                );
+              },
             ),
           ],
         ),
@@ -90,12 +124,19 @@ class DashboardView extends GetView<DashboardController> {
   Widget _buildMenuCard(
       String title, IconData icon, Color color, VoidCallback onTap) {
     return GestureDetector(
-      onTap: onTap, // Panggil fungsi navigasi
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.2),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +146,10 @@ class DashboardView extends GetView<DashboardController> {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: Colors.blueGrey),
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey),
             ),
           ],
         ),
