@@ -10,19 +10,15 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // BRI Blue Background Gradient
+          // Gradient Background
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
+                colors: [Color(0xFF0D47A1), Color(0xFF42A5F5)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF0D47A1), // Deep BRI Blue
-                  Color(0xFF1976D2), // Lighter Blue
-                ],
               ),
             ),
           ),
@@ -30,29 +26,30 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           // Back Button
           Positioned(
             top: 40,
-            left: 10,
+            left: 20,
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
               onPressed: () {
-                Get.offAllNamed(Routes.LOGIN); // Navigate back to login page
+                Get.offAllNamed(Routes.LOGIN);
               },
             ),
           ),
 
-          // White Container with Reset Password Form
+          // Form Container
           Center(
             child: Container(
+              padding: EdgeInsets.all(25),
               margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.shade100,
-                    blurRadius: 15,
+                    color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
-                  )
+                    blurRadius: 15,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
                 ],
               ),
               child: SingleChildScrollView(
@@ -60,46 +57,57 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      'assets/images/bri.jpg', 
-                      height: 200,
-                      width: 300,
+                      'assets/images/reset_password.png',
+                      height: 150,
+                      width: 150,
                     ),
-                    TextField(
-                      controller: controller.cEmail,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        prefixIcon: Icon(Icons.email, color: Color(0xFF0D47A1)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Color(0xFF0D47A1)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Color(0xFF0D47A1), width: 2),
-                        ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Reset Your Password",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0D47A1),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Enter your email and we'll send you instructions to reset your password.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey.shade600,
                       ),
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          cAuth.resetPassword(controller.cEmail.text);
-                        },
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    _buildTextField(controller.cEmail, "Email", Icons.email),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        cAuth.resetPassword(controller.cEmail.text);
+                      },
+                      child: Text(
+                        "Reset Password",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        primary: Color(0xFF0D47A1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF0D47A1),
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    TextButton(
+                      onPressed: () {
+                        Get.offAllNamed(Routes.LOGIN);
+                      },
+                      child: Text(
+                        "Remember your password? Log In",
+                        style: TextStyle(
+                          color: Color(0xFF0D47A1),
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -109,6 +117,24 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText, IconData icon) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Color(0xFF0D47A1)),
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFF0D47A1)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFF0D47A1), width: 2),
+        ),
       ),
     );
   }
