@@ -35,13 +35,12 @@ class TransaksiAddView extends GetView<TransaksiController> {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Card(
-            elevation: 12,
+            elevation: 8,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
+              borderRadius: BorderRadius.circular(15)
             ),
-            shadowColor: Colors.blueAccent,
             child: Padding(
-              padding: EdgeInsets.all(25),
+              padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -50,36 +49,36 @@ class TransaksiAddView extends GetView<TransaksiController> {
                     label: "Nama Lengkap",
                     icon: Icons.person,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildTextField(
                     controller: controller.cNomer_rekening,
                     label: "Nomor Rekening",
                     icon: Icons.credit_card,
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildTextField(
                     controller: controller.cJenis_transaksi,
                     label: "Jenis Transaksi",
                     icon: Icons.swap_horiz,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildTextField(
                     controller: controller.cNominal,
                     label: "Nominal Transaksi",
                     icon: Icons.attach_money,
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildTextField(
                     controller: controller.cKode_struk,
                     label: "Kode Struk",
                     icon: Icons.description,
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildDateField(context),
-                  SizedBox(height: 30),
+                  SizedBox(height: 25),
                   ElevatedButton(
                     onPressed: () => controller.add(
                       controller.cNama.text,
@@ -89,20 +88,17 @@ class TransaksiAddView extends GetView<TransaksiController> {
                       controller.cTanggal.text,
                       controller.cKode_struk.text,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF005FAE),
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                    style: ElevatedButton.styleFrom( // BRI Blue
+                      padding: EdgeInsets.symmetric(vertical: 15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)
-                      ),
-                      elevation: 8,
+                        borderRadius: BorderRadius.circular(10)
+                      )
                     ),
                     child: Text(
                       "Simpan Transaksi",
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   )
@@ -132,11 +128,11 @@ class TransaksiAddView extends GetView<TransaksiController> {
         filled: true,
         fillColor: Colors.white,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.blue[200]!, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Color(0xFF005FAE), width: 2),
         ),
       ),
@@ -158,11 +154,11 @@ class TransaksiAddView extends GetView<TransaksiController> {
         filled: true,
         fillColor: Colors.white,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.blue[200]!, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Color(0xFF005FAE), width: 2),
         ),
       ),
