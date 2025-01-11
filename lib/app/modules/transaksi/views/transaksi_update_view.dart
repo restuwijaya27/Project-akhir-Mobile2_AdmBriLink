@@ -9,40 +9,36 @@ class TransaksiUpdateView extends GetView<TransaksiController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Color(0xFF1A5CAD), // Warna dasar BRI
       appBar: AppBar(
-        backgroundColor: Color(0xFF005FAE), // BRI Blue
-        elevation: 1,
+        backgroundColor: Colors.white,
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Color(0xFF1A5CAD)),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'Ubah Data Transaksi',
           style: TextStyle(
-            color: Colors.white,
+            color: Color(0xFF1A5CAD),
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(15),
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(16),
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Colors.blueAccent.withOpacity(0.2),
-                blurRadius: 10,
-                offset: Offset(0, 5),
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 3,
+                blurRadius: 7,
+                offset: Offset(0, 3),
               ),
             ],
           ),
@@ -62,9 +58,9 @@ class TransaksiUpdateView extends GetView<TransaksiController> {
                     Text(
                       'Edit Transaksi',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF005FAE),
+                        color: Color(0xFF1A5CAD),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -109,19 +105,18 @@ class TransaksiUpdateView extends GetView<TransaksiController> {
                         Get.arguments,
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF005FAE),
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Color(0xFF1A5CAD),
+                        padding: EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 8,
                       ),
                       child: Text(
                         "Ubah Data",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.white, // Teks putih
                         ),
                       ),
                     ),
@@ -131,7 +126,7 @@ class TransaksiUpdateView extends GetView<TransaksiController> {
 
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF005FAE)),
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1A5CAD)),
                 ),
               );
             },
@@ -148,23 +143,18 @@ class TransaksiUpdateView extends GetView<TransaksiController> {
   }) {
     return TextField(
       controller: controller,
-      style: TextStyle(color: Colors.black87),
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(icon, color: Color(0xFF005FAE)),
-        filled: true,
-        fillColor: Colors.blue[50],
+        prefixIcon: Icon(icon, color: Color(0xFF1A5CAD)),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Color(0xFF1A5CAD)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Color(0xFF005FAE), width: 2),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Color(0xFF1A5CAD), width: 2),
         ),
+        labelStyle: TextStyle(color: Color(0xFF1A5CAD)),
       ),
     );
   }
